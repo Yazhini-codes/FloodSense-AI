@@ -42,54 +42,43 @@ def get_zones():
 
         zone_data.append(
             {
-                "zone":
-                    row["zone"],
+                "zone": row["zone"],
 
-                "elevation_m":
-                    float(
-                        row["elevation_m"]
-                    ),
+                "elevation_m": float(
+                    row["elevation_m"]
+                ),
 
-                "terrain_factor":
-                    float(
-                        row["terrain_factor"]
-                    ),
+                "terrain_factor": float(
+                    row["terrain_factor"]
+                ),
 
-                "effective_drainage":
-                    float(
-                        row["effective_drainage"]
-                    ),
+                "effective_drainage": float(
+                    row["effective_drainage"]
+                ),
 
-                "blockage_percent":
-                    float(
-                        row["blockage_percent"]
-                    ),
+                "blockage_percent": float(
+                    row["blockage_percent"]
+                ),
 
-                "vulnerability":
-                    float(
-                        row["vulnerability"]
-                    ),
+                "vulnerability": float(
+                    row["vulnerability"]
+                ),
 
-                "risk_score":
-                    float(
-                        row["risk_score"]
-                    ),
+                "risk_score": float(
+                    row["risk_score"]
+                ),
 
-                "risk_level":
-                    row["risk_level"],
+                "risk_level": row["risk_level"],
 
-                "actual_rainfall_mm":
-                    float(
-                        row["actual_dataset_rainfall_mm"]
-                    ),
+                "actual_rainfall_mm": float(
+                    row["actual_dataset_rainfall_mm"]
+                ),
 
-                "rainfall_used_mm":
-                    float(
-                        row["rainfall_used_mm"]
-                    ),
+                "rainfall_used_mm": float(
+                    row["rainfall_used_mm"]
+                ),
 
-                "rainfall_mode":
-                    row["rainfall_mode"]
+                "rainfall_mode": row["rainfall_mode"]
             }
         )
 
@@ -113,18 +102,15 @@ def get_nowcast():
 
         nowcast_data.append(
             {
-                "forecast_period":
-                    row["forecast_period"],
+                "forecast_period": row["forecast_period"],
 
-                "time":
-                    str(
-                        row["time"]
-                    ),
+                "time": str(
+                    row["time"]
+                ),
 
-                "rainfall_mm":
-                    float(
-                        row["rainfall_mm"]
-                    )
+                "rainfall_mm": float(
+                    row["rainfall_mm"]
+                )
             }
         )
 
@@ -148,50 +134,69 @@ def get_risk_nowcast():
 
         risk_nowcast_data.append(
             {
-                "forecast_period":
-                    row["forecast_period"],
+                "forecast_period": row["forecast_period"],
 
-                "time":
-                    str(
-                        row["time"]
-                    ),
+                "time": str(
+                    row["time"]
+                ),
 
-                "zone":
-                    row["zone"],
+                "zone": row["zone"],
 
-                "rainfall_mm":
-                    float(
-                        row["rainfall_mm"]
-                    ),
+                "rainfall_mm": float(
+                    row["rainfall_mm"]
+                ),
 
-                "elevation_m":
-                    float(
-                        row["elevation_m"]
-                    ),
+                "elevation_m": float(
+                    row["elevation_m"]
+                ),
 
-                "effective_drainage":
-                    float(
-                        row["effective_drainage"]
-                    ),
+                "effective_drainage": float(
+                    row["effective_drainage"]
+                ),
 
-                "blockage_percent":
-                    float(
-                        row["blockage_percent"]
-                    ),
+                "blockage_percent": float(
+                    row["blockage_percent"]
+                ),
 
-                "vulnerability":
-                    float(
-                        row["vulnerability"]
-                    ),
+                "vulnerability": float(
+                    row["vulnerability"]
+                ),
 
-                "risk_score":
-                    float(
-                        row["risk_score"]
-                    ),
+                "risk_score": float(
+                    row["risk_score"]
+                ),
 
-                "risk_level":
-                    row["risk_level"]
+                "risk_level": row["risk_level"]
             }
         )
 
     return risk_nowcast_data
+
+
+# ============================================================
+# EMERGENCY SHELTER API
+# ============================================================
+
+@app.get("/api/shelters")
+def get_shelters():
+
+    df = pd.read_csv(
+        "data/prototype/shelters.csv"
+    )
+
+    shelter_data = []
+
+    for _, row in df.iterrows():
+
+        shelter_data.append(
+            {
+                "zone": row["zone"],
+                "shelter_name": row["shelter_name"],
+                "latitude": float(row["latitude"]),
+                "longitude": float(row["longitude"]),
+                "capacity": int(row["capacity"]),
+                "status": row["status"]
+            }
+        )
+
+    return shelter_data

@@ -127,10 +127,10 @@
 
         .legend {
             margin-top: 12px;
-        }
-
-        .legend span {
-            margin-right: 15px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: center;
         }
 
         .backend-badge {
@@ -148,6 +148,7 @@
         .simulation,
         .terrain-panel,
         .safe-route,
+        .shelter-panel,
         .system-info {
             margin-top: 25px;
         }
@@ -254,9 +255,9 @@
         }
 
 
-        /* ========================================
-           TERRAIN + RUNOFF PROFESSIONAL SECTION
-        ======================================== */
+        /* =====================================================
+           TERRAIN
+        ===================================================== */
 
         .terrain-panel {
             border-left: 5px solid #8b5cf6;
@@ -285,7 +286,6 @@
         .terrain-value {
             font-size: 18px;
             font-weight: bold;
-            color: #0f172a;
         }
 
         .terrain-visual-grid {
@@ -321,6 +321,7 @@
             height: 100%;
             width: 0%;
             border-radius: 999px;
+
             background: linear-gradient(
                 90deg,
                 #22c55e 0%,
@@ -328,6 +329,7 @@
                 #f97316 75%,
                 #ef4444 100%
             );
+
             transition: width 0.5s ease;
         }
 
@@ -336,6 +338,7 @@
             width: 0%;
             border-radius: 999px;
             background: #22c55e;
+
             transition:
                 width 0.5s ease,
                 background 0.5s ease;
@@ -352,7 +355,6 @@
         .meter-value {
             font-size: 17px;
             font-weight: bold;
-            color: #0f172a;
         }
 
         .meter-scale {
@@ -382,7 +384,9 @@
         }
 
 
-        /* SAFE ROUTE */
+        /* =====================================================
+           SAFE ROUTE
+        ===================================================== */
 
         .safe-route {
             border-left: 5px solid #0ea5e9;
@@ -439,7 +443,143 @@
         }
 
 
-        /* WARNING */
+        /* =====================================================
+           SHELTER PANEL
+        ===================================================== */
+
+        .shelter-panel {
+            border-left: 5px solid #2563eb;
+        }
+
+        .shelter-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        .shelter-item {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 15px;
+        }
+
+        .shelter-label {
+            font-size: 12px;
+            color: #64748b;
+            margin-bottom: 7px;
+        }
+
+        .shelter-value {
+            font-size: 17px;
+            font-weight: bold;
+        }
+
+        .shelter-extra-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .shelter-extra {
+            background: #eff6ff;
+            border: 1px solid #bfdbfe;
+            border-radius: 10px;
+            padding: 14px;
+        }
+
+        .citizen-alert {
+            margin-top: 15px;
+            padding: 16px;
+            border-radius: 10px;
+            background: #eff6ff;
+            border-left: 5px solid #2563eb;
+            color: #1e40af;
+            line-height: 1.6;
+        }
+
+        .shelter-disclaimer {
+            margin-top: 12px;
+            padding: 11px 13px;
+            background: #fef3c7;
+            color: #92400e;
+            border-radius: 8px;
+            font-size: 12px;
+        }
+
+
+        /* =====================================================
+           NEW COMBINED MAP MARKER
+
+           BIG COLOURED CIRCLE = FLOOD RISK
+           SMALL HOUSE = SHELTER EXISTS
+        ===================================================== */
+
+        .zone-marker-wrap {
+            position: relative;
+            width: 44px;
+            height: 44px;
+        }
+
+        .zone-risk-dot {
+            position: absolute;
+            left: 4px;
+            top: 4px;
+
+            width: 34px;
+            height: 34px;
+
+            border-radius: 50%;
+
+            border: 3px solid white;
+
+            box-shadow:
+                0 2px 8px rgba(0,0,0,0.30);
+        }
+
+        .zone-shelter-badge {
+
+            position: absolute;
+
+            right: -2px;
+            bottom: -1px;
+
+            width: 18px;
+            height: 18px;
+
+            border-radius: 50%;
+
+            background: white;
+
+            border:
+                1px solid #2563eb;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            font-size: 11px;
+
+            line-height: 1;
+
+            box-shadow:
+                0 1px 4px rgba(0,0,0,0.25);
+
+            /*
+                Important:
+                the tiny house must NOT block
+                clicks on the main zone marker.
+            */
+            pointer-events: none;
+        }
+
+
+        /* =====================================================
+           WARNING
+        ===================================================== */
 
         .bottom {
             display: grid;
@@ -466,7 +606,9 @@
         }
 
 
-        /* SYSTEM INFO */
+        /* =====================================================
+           SYSTEM INFO
+        ===================================================== */
 
         .system-info {
             margin-bottom: 25px;
@@ -507,19 +649,55 @@
             .cards,
             .nowcast-grid,
             .terrain-grid,
-            .safe-route-grid {
-                grid-template-columns: 1fr 1fr;
+            .safe-route-grid,
+            .shelter-grid {
+
+                grid-template-columns:
+                    1fr 1fr;
             }
 
-            .terrain-visual-grid,
             .dashboard,
-            .bottom {
-                grid-template-columns: 1fr;
+            .bottom,
+            .terrain-visual-grid {
+
+                grid-template-columns:
+                    1fr;
             }
 
             .system-info-grid {
-                grid-template-columns: 1fr 1fr;
+
+                grid-template-columns:
+                    1fr 1fr;
             }
+
+        }
+
+
+        @media(max-width: 600px) {
+
+            .cards,
+            .nowcast-grid,
+            .terrain-grid,
+            .safe-route-grid,
+            .shelter-grid,
+            .system-info-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .shelter-extra-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+            .container {
+
+                padding:
+                    14px;
+            }
+
         }
 
     </style>
@@ -544,6 +722,7 @@
 
     </div>
 
+
     <div class="live">
         ● PROTOTYPE MONITORING
     </div>
@@ -558,22 +737,29 @@
         Chennai Urban Flood Risk Dashboard
     </h2>
 
+
     <p class="subtitle">
-        Rainfall–Terrain–Drainage Coupled Hyperlocal Flood Nowcasting
+
+        Rainfall–Terrain–Drainage Coupled
+        Hyperlocal Flood Nowcasting
+
     </p>
 
 
     <div class="data-note">
 
         ℹ️ Live/API-backed prototype:
-        rainfall, terrain/elevation, drainage, blockage
-        and flood-risk information are processed through
+        rainfall, terrain/elevation,
+        drainage, blockage and flood-risk
+        information are processed through
         the FloodSense backend.
 
     </div>
 
 
-    <!-- TOP CARDS -->
+    <!-- =====================================================
+         TOP CARDS
+    ====================================================== -->
 
     <div class="cards">
 
@@ -633,7 +819,9 @@
     </div>
 
 
-    <!-- MAP + ZONE DETAILS -->
+    <!-- =====================================================
+         MAP + DETAILS
+    ====================================================== -->
 
     <div class="dashboard">
 
@@ -644,24 +832,39 @@
                 🗺️ Chennai Flood Risk Map
             </h2>
 
+
             <div id="map"></div>
 
 
             <div class="legend">
 
-                <span>🟢 Low</span>
+                <span>
+                    🟢 Low
+                </span>
 
-                <span>🟡 Moderate</span>
+                <span>
+                    🟡 Moderate
+                </span>
 
-                <span>🟠 High</span>
+                <span>
+                    🟠 High
+                </span>
 
-                <span>🔴 Critical</span>
+                <span>
+                    🔴 Critical
+                </span>
+
+                <span>
+                    🏠 Small badge = Prototype Shelter
+                </span>
 
             </div>
 
 
             <div class="backend-badge">
+
                 ✓ Connected to FastAPI Backend
+
             </div>
 
         </div>
@@ -669,44 +872,77 @@
 
         <div class="panel details">
 
+
             <h2 id="zoneTitle">
+
                 📍 Loading Zone...
+
             </h2>
 
 
             <p>
+
                 Elevation:
-                <b id="zoneElevation">--</b>
+
+                <b id="zoneElevation">
+                    --
+                </b>
+
             </p>
 
 
             <p>
+
                 Terrain Vulnerability:
-                <b id="zoneTerrain">--</b>
+
+                <b id="zoneTerrain">
+                    --
+                </b>
+
             </p>
 
 
             <p>
+
                 Effective Drainage:
-                <b id="zoneDrain">--</b>
+
+                <b id="zoneDrain">
+                    --
+                </b>
+
             </p>
 
 
             <p>
+
                 Drain Blockage:
-                <b id="zoneBlockage">--</b>
+
+                <b id="zoneBlockage">
+                    --
+                </b>
+
             </p>
 
 
             <p>
+
                 🌧️ Rainfall Used:
-                <b id="zoneRainfall">--</b>
+
+                <b id="zoneRainfall">
+                    --
+                </b>
+
             </p>
 
 
             <p>
+
                 Rainfall Mode:
-                <b id="zoneRainfallMode">--</b>
+
+                <b id="zoneRainfallMode">
+                    --
+                </b>
+
             </p>
 
 
@@ -745,9 +981,10 @@
                 "
             >
 
-                Risk is estimated by coupling rainfall,
-                terrain/elevation, drainage condition
-                and blockage vulnerability.
+                Risk is estimated by coupling
+                rainfall, terrain/elevation,
+                drainage condition and blockage
+                vulnerability.
 
             </p>
 
@@ -757,19 +994,26 @@
     </div>
 
 
-    <!-- NOWCAST -->
+    <!-- =====================================================
+         NOWCAST
+    ====================================================== -->
 
     <div class="panel nowcast">
 
+
         <h2>
-            ⏱️ 0–3 Hour Rainfall & Flood-Risk Nowcast
+
+            ⏱️ 0–3 Hour Rainfall &
+            Flood-Risk Nowcast
+
         </h2>
 
 
         <p class="nowcast-note">
 
-            Short-term rainfall and zone-wise flood-risk
-            prediction for the selected Chennai zone.
+            Short-term rainfall and zone-wise
+            flood-risk prediction for the
+            selected Chennai zone.
 
         </p>
 
@@ -930,11 +1174,14 @@
 
         <div class="nowcast-controls">
 
+
             <button
                 class="demo-nowcast-btn"
                 onclick="demoHeavyRainNowcast()"
             >
+
                 🌧️ Demo Heavy-Rain Nowcast
+
             </button>
 
 
@@ -942,8 +1189,11 @@
                 class="reset-btn"
                 onclick="resetNowcastDemo()"
             >
+
                 🔄 Reset Nowcast
+
             </button>
+
 
         </div>
 
@@ -952,15 +1202,21 @@
             class="nowcast-demo-note"
             id="nowcastDemoNote"
         >
+
             DEMO SIMULATION
+
         </div>
+
 
     </div>
 
 
-    <!-- WHAT IF -->
+    <!-- =====================================================
+         WHAT-IF
+    ====================================================== -->
 
     <div class="panel simulation">
+
 
         <h2>
             🧪 What-If Flood Simulation
@@ -968,28 +1224,39 @@
 
 
         <p>
-            Test how rainfall and drainage changes
-            may affect the selected zone.
+
+            Test how rainfall and drainage
+            changes may affect the selected zone.
+
         </p>
 
 
         <p class="simulation-note">
 
-            Simulation values are temporary and
-            do not overwrite backend CSV data.
+            Simulation values are temporary
+            and do not overwrite backend CSV data.
 
         </p>
 
 
         <div class="buttons">
 
-            <button onclick="heavyRain()">
+
+            <button
+                onclick="heavyRain()"
+            >
+
                 🌧️ Heavy Rain Scenario
+
             </button>
 
 
-            <button onclick="blockDrain()">
+            <button
+                onclick="blockDrain()"
+            >
+
                 🚰 Drain Blockage Scenario
+
             </button>
 
 
@@ -997,19 +1264,24 @@
                 class="reset-btn"
                 onclick="resetSimulation()"
             >
+
                 🔄 Reset to Backend Data
+
             </button>
 
+
         </div>
+
 
     </div>
 
 
-    <!-- ==========================================
-         PROFESSIONAL TERRAIN & RUNOFF ASSESSMENT
-    =========================================== -->
+    <!-- =====================================================
+         TERRAIN
+    ====================================================== -->
 
     <div class="panel terrain-panel">
+
 
         <h2>
             🏔️ Terrain & Runoff Assessment
@@ -1018,9 +1290,10 @@
 
         <p class="nowcast-note">
 
-            FloodSense couples rainfall, terrain elevation
-            and drainage condition to estimate surface-water
-            accumulation and runoff vulnerability.
+            FloodSense couples rainfall,
+            terrain elevation and drainage condition
+            to estimate surface-water accumulation
+            and runoff vulnerability.
 
         </p>
 
@@ -1095,15 +1368,16 @@
         </div>
 
 
-        <!-- VISUAL METERS -->
-
         <div class="terrain-visual-grid">
 
 
             <div class="terrain-meter-card">
 
+
                 <div class="terrain-meter-title">
+
                     🏔️ Terrain Vulnerability Meter
+
                 </div>
 
 
@@ -1119,6 +1393,7 @@
 
                 <div class="meter-footer">
 
+
                     <div
                         class="meter-value"
                         id="terrainProgressValue"
@@ -1126,19 +1401,27 @@
                         --%
                     </div>
 
+
                     <div class="meter-scale">
+
                         Low → Moderate → High
+
                     </div>
 
+
                 </div>
+
 
             </div>
 
 
             <div class="terrain-meter-card">
 
+
                 <div class="terrain-meter-title">
+
                     💧 Runoff / Accumulation Meter
+
                 </div>
 
 
@@ -1154,6 +1437,7 @@
 
                 <div class="meter-footer">
 
+
                     <div
                         class="meter-value"
                         id="runoffProgressValue"
@@ -1161,11 +1445,16 @@
                         --
                     </div>
 
+
                     <div class="meter-scale">
+
                         Lower → Higher accumulation
+
                     </div>
 
+
                 </div>
+
 
             </div>
 
@@ -1177,7 +1466,9 @@
             class="terrain-explanation"
             id="terrainExplanation"
         >
+
             Loading terrain assessment...
+
         </div>
 
 
@@ -1207,9 +1498,12 @@
     </div>
 
 
-    <!-- SAFE ROUTE -->
+    <!-- =====================================================
+         SAFE ROUTE
+    ====================================================== -->
 
     <div class="panel safe-route">
+
 
         <h2>
             🧭 Safe Evacuation Route Guidance
@@ -1218,20 +1512,25 @@
 
         <p class="nowcast-note">
 
-            FloodSense compares the risk of monitored zones
-            and recommends a lower-risk destination for
-            the currently selected zone.
+            FloodSense first identifies a
+            lower-risk destination zone.
+            The shelter section then recommends
+            a prototype shelter inside that
+            destination zone.
 
         </p>
 
 
         <div class="buttons">
 
+
             <button
                 class="safe-route-btn"
                 onclick="findSafeRoute()"
             >
+
                 🧭 Find Safe Route
+
             </button>
 
 
@@ -1239,8 +1538,11 @@
                 class="reset-btn"
                 onclick="clearSafeRoute()"
             >
+
                 ✖ Clear Route
+
             </button>
+
 
         </div>
 
@@ -1332,9 +1634,9 @@
             <div class="route-disclaimer">
 
                 ⚠️ Prototype route guidance:
-                the blue dashed line represents a
-                risk-aware evacuation corridor between
-                monitored zones. It is not turn-by-turn
+                the dashed line represents a
+                risk-aware corridor between monitored
+                zones. It is not live turn-by-turn
                 road navigation.
 
             </div>
@@ -1342,32 +1644,192 @@
 
         </div>
 
+
     </div>
 
 
-    <!-- WARNING -->
+    <!-- =====================================================
+         SHELTER
+    ====================================================== -->
+
+    <div class="panel shelter-panel">
+
+
+        <h2>
+            🏠 Emergency Shelter & Citizen Alert
+        </h2>
+
+
+        <p class="nowcast-note">
+
+            After a lower-risk destination zone
+            is selected, FloodSense displays the
+            prototype shelter available inside
+            that destination zone.
+
+        </p>
+
+
+        <div class="shelter-grid">
+
+
+            <div class="shelter-item">
+
+                <div class="shelter-label">
+                    📍 Evacuating From
+                </div>
+
+                <div
+                    class="shelter-value"
+                    id="shelterOrigin"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="shelter-item">
+
+                <div class="shelter-label">
+                    🛡️ Safe Destination Zone
+                </div>
+
+                <div
+                    class="shelter-value"
+                    id="shelterDestination"
+                >
+                    Not selected
+                </div>
+
+            </div>
+
+
+            <div class="shelter-item">
+
+                <div class="shelter-label">
+                    🏠 Recommended Shelter
+                </div>
+
+                <div
+                    class="shelter-value"
+                    id="recommendedShelter"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+            <div class="shelter-item">
+
+                <div class="shelter-label">
+                    ✅ Shelter Status
+                </div>
+
+                <div
+                    class="shelter-value"
+                    id="shelterStatus"
+                >
+                    --
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+        <div class="shelter-extra-grid">
+
+
+            <div class="shelter-extra">
+
+                <strong>
+                    👥 Prototype Capacity:
+                </strong>
+
+                <span id="shelterCapacity">
+                    --
+                </span>
+
+            </div>
+
+
+            <div class="shelter-extra">
+
+                <strong>
+                    📏 Approx. Origin-to-Shelter Distance:
+                </strong>
+
+                <span id="shelterDistance">
+                    --
+                </span>
+
+            </div>
+
+
+        </div>
+
+
+        <div
+            class="citizen-alert"
+            id="citizenAlert"
+        >
+
+            ℹ️ No evacuation destination selected.
+            Click <b>Find Safe Route</b> first.
+
+        </div>
+
+
+        <div class="shelter-disclaimer">
+
+            ⚠️ Prototype demonstration:
+            Shelter names, locations and capacities
+            are sample prototype data and are not
+            verified government emergency-shelter
+            information. During a real emergency,
+            follow official authority instructions.
+
+        </div>
+
+
+    </div>
+
+
+    <!-- =====================================================
+         WARNING + ACTIONS
+    ====================================================== -->
 
     <div class="bottom">
 
 
         <div class="panel warning">
 
+
             <h2>
                 🚨 Early Warning
             </h2>
 
+
             <p id="warningMessage">
+
                 Loading backend flood-risk data...
+
             </p>
+
 
         </div>
 
 
         <div class="panel actions">
 
+
             <h2>
                 🛡️ Recommended Actions
             </h2>
+
 
             <ul id="actions">
 
@@ -1377,15 +1839,19 @@
 
             </ul>
 
+
         </div>
 
 
     </div>
 
 
-    <!-- SYSTEM INFO -->
+    <!-- =====================================================
+         SYSTEM INFORMATION
+    ====================================================== -->
 
     <div class="panel system-info">
+
 
         <h2>
             ⚙️ FloodSense System Information
@@ -1393,7 +1859,10 @@
 
 
         <p class="nowcast-note">
-            Data sources and prototype processing status.
+
+            Data sources and prototype
+            processing status.
+
         </p>
 
 
@@ -1486,6 +1955,7 @@
 
         </div>
 
+
     </div>
 
 
@@ -1493,16 +1963,17 @@
 
 
 <script
-    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js">
+    src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+>
 </script>
 
 
 <script>
 
 
-/* =========================================
-   CHENNAI ZONE COORDINATES
-========================================= */
+/* ============================================================
+   MONITORED CHENNAI ZONES
+============================================================ */
 
 const zoneLocations = {
 
@@ -1554,11 +2025,12 @@ const zoneLocations = {
 };
 
 
-/* =========================================
+/* ============================================================
    MAP
-========================================= */
+============================================================ */
 
 const map =
+
     L.map(
         "map"
     ).setView(
@@ -1583,9 +2055,9 @@ L.tileLayer(
 ).addTo(map);
 
 
-/* =========================================
+/* ============================================================
    GLOBAL VARIABLES
-========================================= */
+============================================================ */
 
 let zones = [];
 
@@ -1595,6 +2067,8 @@ let selectedZone = null;
 
 let markers = {};
 
+let shelters = [];
+
 let rainfallNowcastData = [];
 
 let riskNowcastData = [];
@@ -1603,104 +2077,185 @@ let safeRouteLayer = null;
 
 let safeRouteDestinationMarker = null;
 
+let safeDestinationZone = null;
 
-/* =========================================
+
+/* ============================================================
+   NORMALIZE ZONE NAMES
+============================================================ */
+
+function normalizeZoneName(name) {
+
+    return String(
+        name || ""
+    )
+        .replaceAll(
+            "_",
+            " "
+        )
+        .replaceAll(
+            ".",
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+}
+
+
+/* ============================================================
    RISK LEVEL
-========================================= */
+============================================================ */
 
 function getRiskLevel(risk) {
 
     if (risk < 25) {
 
         return {
-            label: "LOW",
-            color: "green",
-            emoji: "🟢"
+
+            label:
+                "LOW",
+
+            color:
+                "#16a34a",
+
+            emoji:
+                "🟢"
+
         };
 
     }
+
 
     if (risk < 50) {
 
         return {
-            label: "MODERATE",
-            color: "goldenrod",
-            emoji: "🟡"
+
+            label:
+                "MODERATE",
+
+            color:
+                "#eab308",
+
+            emoji:
+                "🟡"
+
         };
 
     }
+
 
     if (risk < 75) {
 
         return {
-            label: "HIGH",
-            color: "orange",
-            emoji: "🟠"
+
+            label:
+                "HIGH",
+
+            color:
+                "#f97316",
+
+            emoji:
+                "🟠"
+
         };
 
     }
 
+
     return {
-        label: "CRITICAL",
-        color: "red",
-        emoji: "🔴"
+
+        label:
+            "CRITICAL",
+
+        color:
+            "#dc2626",
+
+        emoji:
+            "🔴"
+
     };
 
 }
 
 
-/* =========================================
+/* ============================================================
    RECOMMENDED ACTIONS
-========================================= */
+============================================================ */
 
 function getRecommendedActions(risk) {
 
     if (risk < 25) {
 
         return [
+
             "Continue routine monitoring",
+
             "Maintain drainage channels",
+
             "Track rainfall updates"
+
         ];
 
     }
+
 
     if (risk < 50) {
 
         return [
+
             "Monitor rainfall intensity closely",
+
             "Inspect vulnerable drainage channels",
+
             "Keep pumping units ready",
-            "Place local response teams on standby"
+
+            "Place response teams on standby"
+
         ];
 
     }
+
 
     if (risk < 75) {
 
         return [
+
             "Inspect drainage immediately",
-            "Deploy pumping units to vulnerable areas",
+
+            "Deploy pumping units",
+
             "Monitor low-lying roads",
-            "Alert emergency response teams"
+
+            "Alert emergency response teams",
+
+            "Identify lower-risk evacuation zones"
+
         ];
 
     }
 
+
     return [
+
         "Deploy emergency pumping units",
+
         "Restrict access to high-risk roads",
+
         "Issue local flood warnings",
-        "Prioritize hospitals and schools",
-        "Activate emergency response teams"
+
+        "Activate emergency response teams",
+
+        "Identify safe destination zones and shelters"
+
     ];
 
 }
 
 
-/* =========================================
+/* ============================================================
    EARLY WARNING
-========================================= */
+============================================================ */
 
 function updateWarning(zone) {
 
@@ -1716,7 +2271,9 @@ function updateWarning(zone) {
         );
 
 
-    if (level.label === "LOW") {
+    if (
+        level.label === "LOW"
+    ) {
 
         warning.innerText =
 
@@ -1727,6 +2284,7 @@ function updateWarning(zone) {
             "Continue routine monitoring.";
 
     }
+
 
     else if (
         level.label === "MODERATE"
@@ -1742,6 +2300,7 @@ function updateWarning(zone) {
 
     }
 
+
     else if (
         level.label === "HIGH"
     ) {
@@ -1754,9 +2313,10 @@ function updateWarning(zone) {
 
             " shows high flood risk. " +
 
-            "Prepare preventive response measures.";
+            "Review lower-risk destination and shelter guidance.";
 
     }
+
 
     else {
 
@@ -1768,25 +2328,27 @@ function updateWarning(zone) {
 
             " shows critical flood risk. " +
 
-            "Immediate response is recommended.";
+            "Emergency response and official evacuation guidance may be required.";
 
     }
 
 }
 
 
-/* =========================================
-   RUNOFF POTENTIAL
-========================================= */
+/* ============================================================
+   RUNOFF
+============================================================ */
 
 function getRunoffPotential(zone) {
 
     const terrainPercent =
+
         zone.terrainFactor *
         100;
 
 
     const drainageWeakness =
+
         100 -
         zone.effectiveDrainage;
 
@@ -1805,69 +2367,101 @@ function getRunoffPotential(zone) {
         100;
 
 
-    /*
-        Prototype runoff / accumulation index
-
-        Terrain vulnerability   45%
-        Drainage weakness       35%
-        Rainfall influence      20%
-    */
-
     const runoffIndex =
 
-        terrainPercent * 0.45
+        terrainPercent *
+        0.45
 
         +
 
-        drainageWeakness * 0.35
+        drainageWeakness *
+        0.35
 
         +
 
-        rainfallInfluence * 0.20;
+        rainfallInfluence *
+        0.20;
 
 
-    if (runoffIndex < 30) {
+    if (
+        runoffIndex < 30
+    ) {
 
         return {
-            label: "LOW",
-            emoji: "🟢",
-            index: runoffIndex
+
+            label:
+                "LOW",
+
+            emoji:
+                "🟢",
+
+            index:
+                runoffIndex
+
         };
 
     }
 
-    if (runoffIndex < 50) {
+
+    if (
+        runoffIndex < 50
+    ) {
 
         return {
-            label: "MODERATE",
-            emoji: "🟡",
-            index: runoffIndex
+
+            label:
+                "MODERATE",
+
+            emoji:
+                "🟡",
+
+            index:
+                runoffIndex
+
         };
 
     }
 
-    if (runoffIndex < 70) {
+
+    if (
+        runoffIndex < 70
+    ) {
 
         return {
-            label: "HIGH",
-            emoji: "🟠",
-            index: runoffIndex
+
+            label:
+                "HIGH",
+
+            emoji:
+                "🟠",
+
+            index:
+                runoffIndex
+
         };
 
     }
+
 
     return {
-        label: "VERY HIGH",
-        emoji: "🔴",
-        index: runoffIndex
+
+        label:
+            "VERY HIGH",
+
+        emoji:
+            "🔴",
+
+        index:
+            runoffIndex
+
     };
 
 }
 
 
-/* =========================================
-   TERRAIN ASSESSMENT + VISUAL METERS
-========================================= */
+/* ============================================================
+   TERRAIN ASSESSMENT
+============================================================ */
 
 function updateTerrainAssessment(zone) {
 
@@ -1895,6 +2489,7 @@ function updateTerrainAssessment(zone) {
 
 
     const runoff =
+
         getRunoffPotential(
             zone
         );
@@ -1907,8 +2502,11 @@ function updateTerrainAssessment(zone) {
             0,
 
             Math.min(
+
                 100,
+
                 runoff.index
+
             )
 
         );
@@ -1919,6 +2517,7 @@ function updateTerrainAssessment(zone) {
             "terrainZone"
         )
         .innerText =
+
         zone.name;
 
 
@@ -1929,6 +2528,7 @@ function updateTerrainAssessment(zone) {
         .innerText =
 
         zone.elevation.toFixed(1) +
+
         " m";
 
 
@@ -1939,6 +2539,7 @@ function updateTerrainAssessment(zone) {
         .innerText =
 
         terrainPercent.toFixed(1) +
+
         "%";
 
 
@@ -1961,8 +2562,6 @@ function updateTerrainAssessment(zone) {
         "%)";
 
 
-    /* Terrain meter */
-
     document
         .getElementById(
             "terrainProgressFill"
@@ -1970,6 +2569,7 @@ function updateTerrainAssessment(zone) {
         .style.width =
 
         terrainPercent.toFixed(1) +
+
         "%";
 
 
@@ -1980,10 +2580,9 @@ function updateTerrainAssessment(zone) {
         .innerText =
 
         terrainPercent.toFixed(1) +
+
         "%";
 
-
-    /* Runoff meter */
 
     const runoffFill =
 
@@ -1995,6 +2594,7 @@ function updateTerrainAssessment(zone) {
     runoffFill.style.width =
 
         runoffPercent.toFixed(1) +
+
         "%";
 
 
@@ -2007,6 +2607,7 @@ function updateTerrainAssessment(zone) {
 
     }
 
+
     else if (
         runoff.label === "MODERATE"
     ) {
@@ -2016,6 +2617,7 @@ function updateTerrainAssessment(zone) {
 
     }
 
+
     else if (
         runoff.label === "HIGH"
     ) {
@@ -2024,6 +2626,7 @@ function updateTerrainAssessment(zone) {
             "#f97316";
 
     }
+
 
     else {
 
@@ -2052,7 +2655,8 @@ function updateTerrainAssessment(zone) {
         "%";
 
 
-    let terrainText = "";
+    let terrainText =
+        "";
 
 
     if (
@@ -2069,6 +2673,7 @@ function updateTerrainAssessment(zone) {
 
     }
 
+
     else if (
         terrainPercent >= 35
     ) {
@@ -2080,6 +2685,7 @@ function updateTerrainAssessment(zone) {
             " has moderate terrain-related accumulation vulnerability.";
 
     }
+
 
     else {
 
@@ -2109,9 +2715,113 @@ function updateTerrainAssessment(zone) {
 }
 
 
-/* =========================================
-   DASHBOARD UPDATE
-========================================= */
+/* ============================================================
+   SHELTER RESET
+
+   BEFORE FIND SAFE ROUTE:
+   NO SHELTER DESTINATION IS RECOMMENDED
+============================================================ */
+
+function resetShelterGuidance() {
+
+    document
+        .getElementById(
+            "shelterOrigin"
+        )
+        .innerText =
+
+        selectedZone
+
+            ? selectedZone.name
+
+            : "--";
+
+
+    document
+        .getElementById(
+            "shelterDestination"
+        )
+        .innerText =
+
+        "Not selected";
+
+
+    document
+        .getElementById(
+            "recommendedShelter"
+        )
+        .innerText =
+
+        "--";
+
+
+    const status =
+
+        document.getElementById(
+            "shelterStatus"
+        );
+
+
+    status.innerText =
+        "--";
+
+
+    status.style.color =
+        "#0f172a";
+
+
+    document
+        .getElementById(
+            "shelterCapacity"
+        )
+        .innerText =
+
+        "--";
+
+
+    document
+        .getElementById(
+            "shelterDistance"
+        )
+        .innerText =
+
+        "--";
+
+
+    const alert =
+
+        document.getElementById(
+            "citizenAlert"
+        );
+
+
+    alert.style.background =
+        "#eff6ff";
+
+
+    alert.style.borderLeftColor =
+        "#2563eb";
+
+
+    alert.style.color =
+        "#1e40af";
+
+
+    alert.innerHTML =
+
+        "ℹ️ No evacuation destination selected. " +
+
+        "Click <b>Find Safe Route</b> first.";
+
+}
+
+
+/* ============================================================
+   UPDATE MAIN DASHBOARD
+
+   THIS FUNCTION IS CALLED EVERY TIME
+   A ZONE MARKER IS CLICKED.
+============================================================ */
 
 function updateDashboard(zone) {
 
@@ -2120,6 +2830,7 @@ function updateDashboard(zone) {
 
 
     const level =
+
         getRiskLevel(
             zone.risk
         );
@@ -2130,6 +2841,7 @@ function updateDashboard(zone) {
             "selectedZoneCard"
         )
         .innerText =
+
         zone.name;
 
 
@@ -2140,6 +2852,7 @@ function updateDashboard(zone) {
         .innerText =
 
         zone.effectiveDrainage.toFixed(1) +
+
         "%";
 
 
@@ -2150,6 +2863,7 @@ function updateDashboard(zone) {
         .innerText =
 
         zone.risk.toFixed(2) +
+
         "%";
 
 
@@ -2173,6 +2887,7 @@ function updateDashboard(zone) {
         .innerText =
 
         zone.elevation.toFixed(1) +
+
         " m";
 
 
@@ -2185,7 +2900,8 @@ function updateDashboard(zone) {
         (
             zone.terrainFactor *
             100
-        ).toFixed(1) +
+        )
+        .toFixed(1) +
 
         "%";
 
@@ -2197,6 +2913,7 @@ function updateDashboard(zone) {
         .innerText =
 
         zone.effectiveDrainage.toFixed(1) +
+
         "%";
 
 
@@ -2207,6 +2924,7 @@ function updateDashboard(zone) {
         .innerText =
 
         zone.blockage.toFixed(1) +
+
         "%";
 
 
@@ -2217,6 +2935,7 @@ function updateDashboard(zone) {
         .innerText =
 
         zone.rainfallUsed.toFixed(1) +
+
         " mm";
 
 
@@ -2225,6 +2944,7 @@ function updateDashboard(zone) {
             "zoneRainfallMode"
         )
         .innerText =
+
         zone.rainfallMode;
 
 
@@ -2238,6 +2958,7 @@ function updateDashboard(zone) {
     riskElement.innerText =
 
         zone.risk.toFixed(2) +
+
         "%";
 
 
@@ -2297,7 +3018,9 @@ function updateDashboard(zone) {
                 action =>
 
                     "<li>" +
+
                     action +
+
                     "</li>"
 
             )
@@ -2306,13 +3029,13 @@ function updateDashboard(zone) {
 }
 
 
-/* =========================================
+/* ============================================================
    CRITICAL ZONE COUNT
-========================================= */
+============================================================ */
 
 function updateCriticalCount() {
 
-    const count =
+    const criticalCount =
 
         zones.filter(
 
@@ -2327,18 +3050,20 @@ function updateCriticalCount() {
             "criticalZones"
         )
         .innerText =
-        count;
+
+        criticalCount;
 
 }
 
 
-/* =========================================
-   MAP POPUP
-========================================= */
+/* ============================================================
+   POPUP CONTENT
+============================================================ */
 
 function getPopupContent(zone) {
 
     const level =
+
         getRiskLevel(
             zone.risk
         );
@@ -2355,10 +3080,13 @@ function getPopupContent(zone) {
         " m<br>" +
 
         "Terrain Vulnerability: " +
+
         (
             zone.terrainFactor *
             100
-        ).toFixed(1) +
+        )
+        .toFixed(1) +
+
         "%<br>" +
 
         "Effective Drainage: " +
@@ -2385,9 +3113,111 @@ function getPopupContent(zone) {
 }
 
 
-/* =========================================
-   MAP MARKERS
-========================================= */
+/* ============================================================
+   DOES THIS ZONE HAVE SHELTER DATA?
+============================================================ */
+
+function zoneHasShelter(
+    zoneName
+) {
+
+    return shelters.some(
+
+        shelter =>
+
+            normalizeZoneName(
+                shelter.zone
+            ) ===
+
+            normalizeZoneName(
+                zoneName
+            )
+
+    );
+
+}
+
+
+/* ============================================================
+   CREATE ONE COMBINED ZONE MARKER
+
+   BIG CIRCLE = RISK
+   SMALL HOUSE = SHELTER AVAILABLE
+
+   THERE IS NO SEPARATE SHELTER MARKER.
+============================================================ */
+
+function getZoneMarkerIcon(zone) {
+
+    const level =
+
+        getRiskLevel(
+            zone.risk
+        );
+
+
+    const hasShelter =
+
+        zoneHasShelter(
+            zone.name
+        );
+
+
+    const houseBadge =
+
+        hasShelter
+
+            ?
+
+            '<div class="zone-shelter-badge">🏠</div>'
+
+            :
+
+            "";
+
+
+    return L.divIcon({
+
+        className:
+            "",
+
+        html:
+
+            '<div class="zone-marker-wrap">' +
+
+                '<div class="zone-risk-dot" ' +
+
+                    'style="background:' +
+
+                    level.color +
+
+                    ';">' +
+
+                '</div>' +
+
+                houseBadge +
+
+            '</div>',
+
+        iconSize:
+            [44, 44],
+
+        iconAnchor:
+            [22, 22],
+
+        popupAnchor:
+            [0, -22]
+
+    });
+
+}
+
+
+/* ============================================================
+   CREATE CLICKABLE ZONE MARKERS
+
+   THIS FIXES THE "VELACHERY IS FIXED" PROBLEM.
+============================================================ */
 
 function createMarkers() {
 
@@ -2422,20 +3252,15 @@ function createMarkers() {
 
 
             if (!location) {
+
                 return;
+
             }
-
-
-            const level =
-
-                getRiskLevel(
-                    zone.risk
-                );
 
 
             const marker =
 
-                L.circleMarker(
+                L.marker(
 
                     [
                         location.lat,
@@ -2444,19 +3269,13 @@ function createMarkers() {
 
                     {
 
-                        radius: 18,
+                        icon:
+                            getZoneMarkerIcon(
+                                zone
+                            ),
 
-                        color:
-                            level.color,
-
-                        fillColor:
-                            level.color,
-
-                        fillOpacity:
-                            0.75,
-
-                        weight:
-                            3
+                        riseOnHover:
+                            true
 
                     }
 
@@ -2477,17 +3296,31 @@ function createMarkers() {
             );
 
 
+            /*
+                IMPORTANT FIX:
+
+                Clicking Adyar selects Adyar.
+                Clicking Tambaram selects Tambaram.
+                Clicking Anna Nagar selects Anna Nagar.
+                etc.
+            */
+
             marker.on(
 
                 "click",
 
                 function() {
 
+
                     clearSafeRoute();
+
 
                     updateDashboard(
                         zone
                     );
+
+
+                    resetShelterGuidance();
 
                 }
 
@@ -2496,7 +3329,9 @@ function createMarkers() {
 
             markers[
                 zone.name
-            ] = marker;
+            ] =
+
+                marker;
 
         }
 
@@ -2505,9 +3340,9 @@ function createMarkers() {
 }
 
 
-/* =========================================
-   REFRESH MARKER
-========================================= */
+/* ============================================================
+   UPDATE ONE MARKER AFTER SIMULATION
+============================================================ */
 
 function refreshMarker(zone) {
 
@@ -2519,26 +3354,19 @@ function refreshMarker(zone) {
 
 
     if (!marker) {
+
         return;
+
     }
 
 
-    const level =
+    marker.setIcon(
 
-        getRiskLevel(
-            zone.risk
-        );
+        getZoneMarkerIcon(
+            zone
+        )
 
-
-    marker.setStyle({
-
-        color:
-            level.color,
-
-        fillColor:
-            level.color
-
-    });
+    );
 
 
     marker.setPopupContent(
@@ -2552,14 +3380,943 @@ function refreshMarker(zone) {
 }
 
 
-/* =========================================
+/* ============================================================
+   DISTANCE
+============================================================ */
+
+function calculateDistance(
+    lat1,
+    lon1,
+    lat2,
+    lon2
+) {
+
+    const earthRadius =
+        6371;
+
+
+    const dLat =
+
+        (
+            lat2 -
+            lat1
+        ) *
+
+        Math.PI /
+        180;
+
+
+    const dLon =
+
+        (
+            lon2 -
+            lon1
+        ) *
+
+        Math.PI /
+        180;
+
+
+    const a =
+
+        Math.sin(
+            dLat / 2
+        ) *
+
+        Math.sin(
+            dLat / 2
+        )
+
+        +
+
+        Math.cos(
+            lat1 *
+            Math.PI /
+            180
+        )
+
+        *
+
+        Math.cos(
+            lat2 *
+            Math.PI /
+            180
+        )
+
+        *
+
+        Math.sin(
+            dLon / 2
+        )
+
+        *
+
+        Math.sin(
+            dLon / 2
+        );
+
+
+    const c =
+
+        2 *
+
+        Math.atan2(
+
+            Math.sqrt(a),
+
+            Math.sqrt(
+                1 - a
+            )
+
+        );
+
+
+    return (
+
+        earthRadius *
+        c
+
+    );
+
+}
+
+
+/* ============================================================
+   FIND SHELTER INSIDE SAFE DESTINATION ZONE
+============================================================ */
+
+function showShelterForDestination(
+    originZone,
+    destinationZone
+) {
+
+    const originLocation =
+
+        zoneLocations[
+            originZone.name
+        ];
+
+
+    const shelter =
+
+        shelters.find(
+
+            item =>
+
+                normalizeZoneName(
+                    item.zone
+                ) ===
+
+                normalizeZoneName(
+                    destinationZone.name
+                )
+
+        );
+
+
+    document
+        .getElementById(
+            "shelterOrigin"
+        )
+        .innerText =
+
+        originZone.name;
+
+
+    document
+        .getElementById(
+            "shelterDestination"
+        )
+        .innerText =
+
+        destinationZone.name;
+
+
+    if (!shelter) {
+
+
+        document
+            .getElementById(
+                "recommendedShelter"
+            )
+            .innerText =
+
+            "No prototype shelter found";
+
+
+        document
+            .getElementById(
+                "shelterStatus"
+            )
+            .innerText =
+
+            "--";
+
+
+        document
+            .getElementById(
+                "shelterCapacity"
+            )
+            .innerText =
+
+            "--";
+
+
+        document
+            .getElementById(
+                "shelterDistance"
+            )
+            .innerText =
+
+            "--";
+
+
+        document
+            .getElementById(
+                "citizenAlert"
+            )
+            .innerText =
+
+            "No prototype shelter data is currently available for " +
+
+            destinationZone.name +
+
+            ".";
+
+
+        return;
+
+    }
+
+
+    const shelterLatitude =
+
+        Number(
+            shelter.latitude
+        );
+
+
+    const shelterLongitude =
+
+        Number(
+            shelter.longitude
+        );
+
+
+    const totalDistance =
+
+        calculateDistance(
+
+            originLocation.lat,
+            originLocation.lon,
+
+            shelterLatitude,
+            shelterLongitude
+
+        );
+
+
+    document
+        .getElementById(
+            "recommendedShelter"
+        )
+        .innerText =
+
+        shelter.shelter_name;
+
+
+    const statusElement =
+
+        document.getElementById(
+            "shelterStatus"
+        );
+
+
+    statusElement.innerText =
+
+        shelter.status;
+
+
+    if (
+        String(
+            shelter.status
+        )
+        .toUpperCase() ===
+        "OPEN"
+    ) {
+
+        statusElement.style.color =
+            "#16a34a";
+
+    }
+
+    else {
+
+        statusElement.style.color =
+            "#dc2626";
+
+    }
+
+
+    document
+        .getElementById(
+            "shelterCapacity"
+        )
+        .innerText =
+
+        Number(
+            shelter.capacity
+        )
+        .toLocaleString() +
+
+        " people";
+
+
+    document
+        .getElementById(
+            "shelterDistance"
+        )
+        .innerText =
+
+        totalDistance.toFixed(1) +
+
+        " km";
+
+
+    const originRiskLevel =
+
+        getRiskLevel(
+            originZone.risk
+        );
+
+
+    const alertElement =
+
+        document.getElementById(
+            "citizenAlert"
+        );
+
+
+    if (
+
+        originRiskLevel.label === "HIGH"
+
+        ||
+
+        originRiskLevel.label === "CRITICAL"
+
+    ) {
+
+
+        alertElement.style.background =
+            "#fef2f2";
+
+
+        alertElement.style.borderLeftColor =
+            "#dc2626";
+
+
+        alertElement.style.color =
+            "#991b1b";
+
+
+        alertElement.innerText =
+
+            "🚨 CITIZEN GUIDANCE: " +
+
+            originZone.name +
+
+            " has " +
+
+            originRiskLevel.label +
+
+            " modeled flood risk. " +
+
+            "FloodSense recommends " +
+
+            destinationZone.name +
+
+            " as a lower-risk destination. " +
+
+            "Prototype shelter: " +
+
+            shelter.shelter_name +
+
+            ". Capacity: " +
+
+            shelter.capacity +
+
+            " people. Shelter status: " +
+
+            shelter.status +
+
+            ". Move only when advised by official authorities.";
+
+    }
+
+
+    else {
+
+
+        alertElement.style.background =
+            "#eff6ff";
+
+
+        alertElement.style.borderLeftColor =
+            "#2563eb";
+
+
+        alertElement.style.color =
+            "#1e40af";
+
+
+        alertElement.innerText =
+
+            "ℹ️ PREPAREDNESS GUIDANCE: " +
+
+            "FloodSense selected " +
+
+            destinationZone.name +
+
+            " as the lower-risk monitored destination from " +
+
+            originZone.name +
+
+            ". The prototype shelter available there is " +
+
+            shelter.shelter_name +
+
+            ". No evacuation is currently recommended; " +
+
+            "this information is shown for preparedness.";
+
+    }
+
+}
+
+
+/* ============================================================
+   FIND SAFE ROUTE
+============================================================ */
+
+function findSafeRoute() {
+
+    if (!selectedZone) {
+        return;
+    }
+
+
+    /*
+        Remove any previous route,
+        but keep the shelter panel ready
+        for the new recommendation.
+    */
+
+    clearSafeRoute(false);
+
+
+    const originZone =
+        selectedZone;
+
+
+    const originLocation =
+        zoneLocations[
+            originZone.name
+        ];
+
+
+    if (!originLocation) {
+        return;
+    }
+
+
+    /*
+        All monitored zones except
+        the currently selected zone.
+    */
+
+    const candidates =
+
+        zones.filter(
+
+            zone =>
+                zone.name !==
+                originZone.name
+
+        );
+
+
+    if (
+        candidates.length === 0
+    ) {
+        return;
+    }
+
+
+    let bestZone =
+        null;
+
+
+    let bestDistance =
+        Infinity;
+
+
+    /*
+        Find the best destination.
+
+        Priority 1:
+        Lowest flood risk.
+
+        Priority 2:
+        If two zones have the same risk,
+        choose the closer zone.
+    */
+
+    candidates.forEach(
+
+        function(zone) {
+
+
+            const location =
+                zoneLocations[
+                    zone.name
+                ];
+
+
+            if (!location) {
+                return;
+            }
+
+
+            const distance =
+
+                calculateDistance(
+
+                    originLocation.lat,
+                    originLocation.lon,
+
+                    location.lat,
+                    location.lon
+
+                );
+
+
+            if (!bestZone) {
+
+                bestZone =
+                    zone;
+
+                bestDistance =
+                    distance;
+
+                return;
+
+            }
+
+
+            if (
+                zone.risk <
+                bestZone.risk
+            ) {
+
+                bestZone =
+                    zone;
+
+                bestDistance =
+                    distance;
+
+            }
+
+
+            else if (
+
+                zone.risk ===
+                bestZone.risk
+
+                &&
+
+                distance <
+                bestDistance
+
+            ) {
+
+                bestZone =
+                    zone;
+
+                bestDistance =
+                    distance;
+
+            }
+
+        }
+
+    );
+
+
+    if (!bestZone) {
+        return;
+    }
+
+
+    safeDestinationZone =
+        bestZone;
+
+
+    const destinationLocation =
+
+        zoneLocations[
+            bestZone.name
+        ];
+
+
+    /*
+        DRAW SAFE ROUTE
+    */
+
+    safeRouteLayer =
+
+        L.polyline(
+
+            [
+
+                [
+                    originLocation.lat,
+                    originLocation.lon
+                ],
+
+                [
+                    destinationLocation.lat,
+                    destinationLocation.lon
+                ]
+
+            ],
+
+            {
+
+                color:
+                    "#2563eb",
+
+                weight:
+                    5,
+
+                dashArray:
+                    "10, 8",
+
+                opacity:
+                    0.85
+
+            }
+
+        ).addTo(map);
+
+
+    /*
+        HIGHLIGHT DESTINATION
+    */
+
+    safeRouteDestinationMarker =
+
+        L.circleMarker(
+
+            [
+                destinationLocation.lat,
+                destinationLocation.lon
+            ],
+
+            {
+
+                radius:
+                    13,
+
+                color:
+                    "#1d4ed8",
+
+                fillColor:
+                    "#38bdf8",
+
+                fillOpacity:
+                    0.65,
+
+                weight:
+                    4
+
+            }
+
+        ).addTo(map);
+
+
+    safeRouteDestinationMarker.bindPopup(
+
+        "<b>🛡️ Recommended Safe Zone</b><br>" +
+
+        bestZone.name +
+
+        "<br>" +
+
+        "Flood Risk: " +
+
+        bestZone.risk.toFixed(2) +
+
+        "% " +
+
+        getRiskLevel(
+            bestZone.risk
+        ).label
+
+    );
+
+
+    /*
+        FIT BOTH ORIGIN AND DESTINATION
+        ON THE MAP
+    */
+
+    map.fitBounds(
+
+        safeRouteLayer.getBounds(),
+
+        {
+            padding:
+                [50, 50]
+        }
+
+    );
+
+
+    /*
+        SHOW SAFE ROUTE RESULT
+    */
+
+    document
+        .getElementById(
+            "safeRouteResult"
+        )
+        .style.display =
+        "block";
+
+
+    document
+        .getElementById(
+            "routeOrigin"
+        )
+        .innerText =
+        originZone.name;
+
+
+    document
+        .getElementById(
+            "routeDestination"
+        )
+        .innerText =
+        bestZone.name;
+
+
+    document
+        .getElementById(
+            "routeDestinationRisk"
+        )
+        .innerText =
+
+        bestZone.risk.toFixed(2) +
+
+        "% " +
+
+        getRiskLevel(
+            bestZone.risk
+        ).label;
+
+
+    document
+        .getElementById(
+            "routeDistance"
+        )
+        .innerText =
+
+        bestDistance.toFixed(1) +
+
+        " km";
+
+
+    document
+        .getElementById(
+            "routeGuidance"
+        )
+        .innerText =
+
+        "FloodSense recommends moving from " +
+
+        originZone.name +
+
+        " toward " +
+
+        bestZone.name +
+
+        " because it currently has lower modeled flood risk. " +
+
+        "The Emergency Shelter section below now shows the " +
+
+        "prototype shelter available inside " +
+
+        bestZone.name +
+
+        ".";
+
+
+    /*
+        FIND SHELTER INSIDE
+        THE SAFE DESTINATION
+    */
+
+    showShelterForDestination(
+
+        originZone,
+
+        bestZone
+
+    );
+
+
+    /*
+        OPEN DESTINATION POPUP
+        AUTOMATICALLY
+    */
+
+    setTimeout(
+
+        function() {
+
+            if (
+                safeRouteDestinationMarker
+            ) {
+
+                safeRouteDestinationMarker
+                    .openPopup();
+
+            }
+
+        },
+
+        350
+
+    );
+
+
+    /*
+        AFTER SHOWING THE ROUTE,
+        AUTOMATICALLY SCROLL TO
+        THE SHELTER INFORMATION.
+    */
+
+    setTimeout(
+
+        function() {
+
+            const shelterPanel =
+
+                document.querySelector(
+                    ".shelter-panel"
+                );
+
+
+            if (shelterPanel) {
+
+                shelterPanel.scrollIntoView({
+
+                    behavior:
+                        "smooth",
+
+                    block:
+                        "start"
+
+                });
+
+            }
+
+        },
+
+        900
+
+    );
+
+}
+
+
+/* ============================================================
+   CLEAR SAFE ROUTE
+============================================================ */
+
+function clearSafeRoute(
+    resetShelter = true
+) {
+
+    if (
+        safeRouteLayer
+    ) {
+
+        map.removeLayer(
+            safeRouteLayer
+        );
+
+
+        safeRouteLayer =
+            null;
+
+    }
+
+
+    if (
+        safeRouteDestinationMarker
+    ) {
+
+        map.removeLayer(
+            safeRouteDestinationMarker
+        );
+
+
+        safeRouteDestinationMarker =
+            null;
+
+    }
+
+
+    safeDestinationZone =
+        null;
+
+
+    const result =
+
+        document.getElementById(
+            "safeRouteResult"
+        );
+
+
+    if (result) {
+
+        result.style.display =
+            "none";
+
+    }
+
+
+    if (resetShelter) {
+
+        resetShelterGuidance();
+
+    }
+
+}
+
+
+/* ============================================================
    HEAVY RAIN WHAT-IF
-========================================= */
+============================================================ */
 
 function heavyRain() {
 
     if (!selectedZone) {
+
         return;
+
     }
 
 
@@ -2619,33 +4376,21 @@ function heavyRain() {
     updateCriticalCount();
 
 
-    document
-        .getElementById(
-            "warningMessage"
-        )
-        .innerText =
-
-        "WHAT-IF SCENARIO: Heavy rainfall applied to " +
-
-        selectedZone.name +
-
-        ". Flood risk increased to " +
-
-        selectedZone.risk.toFixed(2) +
-
-        "%.";
+    resetShelterGuidance();
 
 }
 
 
-/* =========================================
+/* ============================================================
    DRAIN BLOCKAGE WHAT-IF
-========================================= */
+============================================================ */
 
 function blockDrain() {
 
     if (!selectedZone) {
+
         return;
+
     }
 
 
@@ -2706,28 +4451,14 @@ function blockDrain() {
     updateCriticalCount();
 
 
-    document
-        .getElementById(
-            "warningMessage"
-        )
-        .innerText =
-
-        "WHAT-IF SCENARIO: Drain blockage increased in " +
-
-        selectedZone.name +
-
-        ". Flood risk increased to " +
-
-        selectedZone.risk.toFixed(2) +
-
-        "%.";
+    resetShelterGuidance();
 
 }
 
 
-/* =========================================
-   RESET SIMULATION
-========================================= */
+/* ============================================================
+   RESET WHAT-IF SIMULATION
+============================================================ */
 
 function resetSimulation() {
 
@@ -2756,68 +4487,67 @@ function resetSimulation() {
 
     createMarkers();
 
+
     updateCriticalCount();
 
 
-    if (currentName) {
+    let originalZone =
 
-        const original =
+        zones.find(
 
-            zones.find(
+            zone =>
 
-                zone =>
+                zone.name ===
+                currentName
 
-                    zone.name ===
-                    currentName
-
-            );
+        );
 
 
-        if (original) {
+    if (!originalZone) {
 
-            updateDashboard(
-                original
-            );
-
-            return;
-
-        }
+        originalZone =
+            zones[0];
 
     }
 
 
-    if (
-        zones.length > 0
-    ) {
+    if (originalZone) {
 
         updateDashboard(
-            zones[0]
+            originalZone
         );
+
+
+        resetShelterGuidance();
 
     }
 
 }
 
 
-/* =========================================
+/* ============================================================
    RAINFALL NOWCAST DISPLAY
-========================================= */
+============================================================ */
 
 function renderRainfallNowcast(data) {
 
     const rainIds = [
+
         "rainNow",
         "rain1",
         "rain2",
         "rain3"
+
     ];
 
 
     const timeIds = [
+
         "timeNow",
         "time1",
         "time2",
         "time3"
+
     ];
 
 
@@ -2828,29 +4558,47 @@ function renderRainfallNowcast(data) {
         )
         .forEach(
 
-            function(item, index) {
+            function(
+                item,
+                index
+            ) {
 
 
-                document
-                    .getElementById(
+                const rainElement =
+
+                    document.getElementById(
                         rainIds[index]
-                    )
-                    .innerText =
-
-                    Number(
-                        item.rainfall_mm
-                    ).toFixed(1) +
-
-                    " mm";
+                    );
 
 
-                document
-                    .getElementById(
+                const timeElement =
+
+                    document.getElementById(
                         timeIds[index]
-                    )
-                    .innerText =
+                    );
 
-                    item.time;
+
+                if (rainElement) {
+
+                    rainElement.innerText =
+
+                        Number(
+                            item.rainfall_mm
+                        )
+                        .toFixed(1) +
+
+                        " mm";
+
+                }
+
+
+                if (timeElement) {
+
+                    timeElement.innerText =
+
+                        item.time;
+
+                }
 
             }
 
@@ -2859,25 +4607,90 @@ function renderRainfallNowcast(data) {
 }
 
 
-/* =========================================
+/* ============================================================
+   RISK BADGE STYLE
+============================================================ */
+
+function setRiskBadgeStyle(
+    element,
+    level
+) {
+
+    if (
+        level.label === "LOW"
+    ) {
+
+        element.style.background =
+            "#dcfce7";
+
+        element.style.color =
+            "#166534";
+
+    }
+
+
+    else if (
+        level.label === "MODERATE"
+    ) {
+
+        element.style.background =
+            "#fef3c7";
+
+        element.style.color =
+            "#92400e";
+
+    }
+
+
+    else if (
+        level.label === "HIGH"
+    ) {
+
+        element.style.background =
+            "#ffedd5";
+
+        element.style.color =
+            "#c2410c";
+
+    }
+
+
+    else {
+
+        element.style.background =
+            "#fee2e2";
+
+        element.style.color =
+            "#b91c1c";
+
+    }
+
+}
+
+
+/* ============================================================
    RISK NOWCAST DISPLAY
-========================================= */
+============================================================ */
 
 function renderRiskNowcastData(data) {
 
     const riskIds = [
+
         "riskNow",
         "risk1",
         "risk2",
         "risk3"
+
     ];
 
 
     const levelIds = [
+
         "levelNow",
         "level1",
         "level2",
         "level3"
+
     ];
 
 
@@ -2888,7 +4701,10 @@ function renderRiskNowcastData(data) {
         )
         .forEach(
 
-            function(item, index) {
+            function(
+                item,
+                index
+            ) {
 
 
                 const risk =
@@ -2907,85 +4723,55 @@ function renderRiskNowcastData(data) {
 
                 const riskElement =
 
-                    document
-                        .getElementById(
-                            riskIds[index]
-                        );
-
-
-                riskElement.innerText =
-
-                    "Risk: " +
-
-                    risk.toFixed(2) +
-
-                    "%";
-
-
-                riskElement.style.color =
-                    level.color;
+                    document.getElementById(
+                        riskIds[index]
+                    );
 
 
                 const levelElement =
 
-                    document
-                        .getElementById(
-                            levelIds[index]
-                        );
+                    document.getElementById(
+                        levelIds[index]
+                    );
 
 
-                levelElement.innerText =
-
-                    level.emoji +
-
-                    " " +
-
-                    level.label;
+                if (riskElement) {
 
 
-                if (
-                    level.label === "LOW"
-                ) {
+                    riskElement.innerText =
 
-                    levelElement.style.background =
-                        "#dcfce7";
+                        "Risk: " +
 
-                    levelElement.style.color =
-                        "#166534";
+                        risk.toFixed(2) +
+
+                        "%";
+
+
+                    riskElement.style.color =
+                        level.color;
 
                 }
 
-                else if (
-                    level.label === "MODERATE"
-                ) {
 
-                    levelElement.style.background =
-                        "#fef3c7";
+                if (levelElement) {
 
-                    levelElement.style.color =
-                        "#92400e";
 
-                }
+                    levelElement.innerText =
 
-                else if (
-                    level.label === "HIGH"
-                ) {
+                        level.emoji +
 
-                    levelElement.style.background =
-                        "#ffedd5";
+                        " " +
 
-                    levelElement.style.color =
-                        "#c2410c";
+                        level.label;
 
-                }
 
-                else {
+                    setRiskBadgeStyle(
 
-                    levelElement.style.background =
-                        "#fee2e2";
+                        levelElement,
 
-                    levelElement.style.color =
-                        "#b91c1c";
+                        level
+
+                    );
 
                 }
 
@@ -2996,16 +4782,20 @@ function renderRiskNowcastData(data) {
 }
 
 
-/* =========================================
-   SELECTED ZONE RISK NOWCAST
-========================================= */
+/* ============================================================
+   SELECTED ZONE NOWCAST
+============================================================ */
 
-function updateRiskNowcast(zoneName) {
+function updateRiskNowcast(
+    zoneName
+) {
 
     if (
         riskNowcastData.length === 0
     ) {
+
         return;
+
     }
 
 
@@ -3015,17 +4805,24 @@ function updateRiskNowcast(zoneName) {
 
             item =>
 
-                item.zone ===
-                zoneName
+                normalizeZoneName(
+                    item.zone
+                ) ===
+
+                normalizeZoneName(
+                    zoneName
+                )
 
         );
 
 
     const periods = [
+
         "NOW",
         "+1 HOUR",
         "+2 HOURS",
         "+3 HOURS"
+
     ];
 
 
@@ -3058,79 +4855,65 @@ function updateRiskNowcast(zoneName) {
 }
 
 
-/* =========================================
+/* ============================================================
    DEMO HEAVY RAIN NOWCAST
-========================================= */
+============================================================ */
 
 function demoHeavyRainNowcast() {
 
     if (!selectedZone) {
-        return;
-    }
-
-
-    const selectedForecasts =
-
-        riskNowcastData.filter(
-
-            item =>
-
-                item.zone ===
-                selectedZone.name
-
-        );
-
-
-    if (
-        selectedForecasts.length === 0
-    ) {
 
         return;
 
     }
 
 
-    const vulnerability =
+    const demoRainfall = [
 
-        Number(
-
-            selectedForecasts[0]
-                .vulnerability
-
-        );
-
-
-    const demoRainfallValues = [
         10,
         25,
         40,
         60
+
     ];
 
 
-    const periods = [
-        "NOW",
-        "+1 HOUR",
-        "+2 HOURS",
-        "+3 HOURS"
+    const rainIds = [
+
+        "rainNow",
+        "rain1",
+        "rain2",
+        "rain3"
+
     ];
 
 
-    const demoRainfall = [];
+    const riskIds = [
 
-    const demoRisk = [];
+        "riskNow",
+        "risk1",
+        "risk2",
+        "risk3"
+
+    ];
 
 
-    periods.forEach(
+    const levelIds = [
 
-        function(period, index) {
+        "levelNow",
+        "level1",
+        "level2",
+        "level3"
+
+    ];
 
 
-            const rainfall =
+    demoRainfall.forEach(
 
-                demoRainfallValues[
-                    index
-                ];
+        function(
+            rainfall,
+            index
+        ) {
 
 
             const rainFactor =
@@ -3142,6 +4925,13 @@ function demoHeavyRainNowcast() {
 
                     1
 
+                );
+
+
+            const vulnerability =
+
+                Number(
+                    selectedZone.vulnerability
                 );
 
 
@@ -3160,106 +4950,112 @@ function demoHeavyRainNowcast() {
                 );
 
 
-            const matching =
+            const level =
 
-                selectedForecasts.find(
+                getRiskLevel(
+                    risk
+                );
 
-                    item =>
 
-                        item.forecast_period ===
-                        period
-
+            document
+                .getElementById(
+                    rainIds[index]
                 )
+                .innerText =
 
-                ||
+                rainfall.toFixed(1) +
 
-                selectedForecasts[0];
-
-
-            demoRainfall.push({
-
-                forecast_period:
-                    period,
-
-                time:
-                    matching.time,
-
-                rainfall_mm:
-                    rainfall
-
-            });
+                " mm";
 
 
-            demoRisk.push({
+            const riskElement =
 
-                forecast_period:
-                    period,
+                document.getElementById(
+                    riskIds[index]
+                );
 
-                risk_score:
-                    Number(
-                        risk.toFixed(2)
-                    )
 
-            });
+            riskElement.innerText =
+
+                "Risk: " +
+
+                risk.toFixed(2) +
+
+                "%";
+
+
+            riskElement.style.color =
+                level.color;
+
+
+            const levelElement =
+
+                document.getElementById(
+                    levelIds[index]
+                );
+
+
+            levelElement.innerText =
+
+                level.emoji +
+
+                " " +
+
+                level.label;
+
+
+            setRiskBadgeStyle(
+
+                levelElement,
+
+                level
+
+            );
 
         }
 
     );
 
 
-    renderRainfallNowcast(
-        demoRainfall
-    );
-
-
-    renderRiskNowcastData(
-        demoRisk
-    );
-
-
-    const note =
+    const demoNote =
 
         document.getElementById(
             "nowcastDemoNote"
         );
 
 
-    note.style.display =
+    demoNote.style.display =
         "block";
 
 
-    note.innerText =
+    demoNote.innerText =
 
-        "⚠️ DEMO SIMULATION — " +
+        "⚠️ DEMO SIMULATION: " +
 
-        selectedZone.name +
+        "Synthetic heavy-rain values are being used " +
 
-        ": rainfall increases from 10 mm → 25 mm → 40 mm → 60 mm. " +
+        "to demonstrate FloodSense 0–3 hour risk response. " +
 
-        "FloodSense recalculates risk using the zone vulnerability model. " +
-
-        "Backend forecast data is NOT overwritten.";
+        "Backend CSV/API data has not been modified.";
 
 }
 
 
-/* =========================================
+/* ============================================================
    RESET NOWCAST
-========================================= */
+============================================================ */
 
 function resetNowcastDemo() {
 
-    document
-        .getElementById(
-            "nowcastDemoNote"
-        )
-        .style.display =
-        "none";
+    if (
+        rainfallNowcastData.length > 0
+    ) {
 
+        renderRainfallNowcast(
+            rainfallNowcastData
+        );
 
-    renderRainfallNowcast(
-        rainfallNowcastData
-    );
+    }
 
 
     if (selectedZone) {
@@ -3270,561 +5066,104 @@ function resetNowcastDemo() {
 
     }
 
-}
-
-
-/* =========================================
-   DISTANCE CALCULATION
-========================================= */
-
-function calculateDistance(
-    location1,
-    location2
-) {
-
-    const earthRadiusKm =
-        6371;
-
-
-    const toRadians =
-
-        degrees =>
-
-            degrees *
-            Math.PI /
-            180;
-
-
-    const lat1 =
-        toRadians(
-            location1.lat
-        );
-
-
-    const lat2 =
-        toRadians(
-            location2.lat
-        );
-
-
-    const dLat =
-
-        toRadians(
-
-            location2.lat -
-            location1.lat
-
-        );
-
-
-    const dLon =
-
-        toRadians(
-
-            location2.lon -
-            location1.lon
-
-        );
-
-
-    const a =
-
-        Math.sin(
-            dLat / 2
-        ) ** 2
-
-        +
-
-        Math.cos(lat1) *
-
-        Math.cos(lat2) *
-
-        Math.sin(
-            dLon / 2
-        ) ** 2;
-
-
-    const c =
-
-        2 *
-
-        Math.atan2(
-
-            Math.sqrt(a),
-
-            Math.sqrt(
-                1 - a
-            )
-
-        );
-
-
-    return (
-        earthRadiusKm *
-        c
-    );
-
-}
-
-
-/* =========================================
-   FIND SAFE ROUTE
-========================================= */
-
-function findSafeRoute() {
-
-    if (!selectedZone) {
-        return;
-    }
-
-
-    clearSafeRoute();
-
-
-    const originLocation =
-
-        zoneLocations[
-            selectedZone.name
-        ];
-
-
-    if (!originLocation) {
-        return;
-    }
-
-
-    let candidates =
-
-        zones
-            .filter(
-
-                zone =>
-
-                    zone.name !==
-                    selectedZone.name
-
-                    &&
-
-                    zoneLocations[
-                        zone.name
-                    ]
-
-            )
-            .map(
-
-                zone => {
-
-
-                    const location =
-
-                        zoneLocations[
-                            zone.name
-                        ];
-
-
-                    return {
-
-                        zone: zone,
-
-                        location: location,
-
-                        distance:
-
-                            calculateDistance(
-
-                                originLocation,
-
-                                location
-
-                            )
-
-                    };
-
-                }
-
-            );
-
-
-    let saferCandidates =
-
-        candidates.filter(
-
-            candidate =>
-
-                candidate.zone.risk <
-                selectedZone.risk
-
-                ||
-
-                candidate.zone.risk <
-                25
-
-        );
-
-
-    if (
-        saferCandidates.length === 0
-    ) {
-
-        saferCandidates =
-            candidates;
-
-    }
-
-
-    saferCandidates.sort(
-
-        function(a, b) {
-
-
-            const riskDifference =
-
-                a.zone.risk -
-                b.zone.risk;
-
-
-            if (
-                Math.abs(
-                    riskDifference
-                ) > 2
-            ) {
-
-                return riskDifference;
-
-            }
-
-
-            return (
-                a.distance -
-                b.distance
-            );
-
-        }
-
-    );
-
-
-    const best =
-        saferCandidates[0];
-
-
-    if (!best) {
-        return;
-    }
-
-
-    const destination =
-        best.zone;
-
-
-    const destinationLocation =
-        best.location;
-
-
-    const destinationLevel =
-
-        getRiskLevel(
-            destination.risk
-        );
-
-
-    safeRouteLayer =
-
-        L.polyline(
-
-            [
-
-                [
-                    originLocation.lat,
-                    originLocation.lon
-                ],
-
-                [
-                    destinationLocation.lat,
-                    destinationLocation.lon
-                ]
-
-            ],
-
-            {
-
-                color:
-                    "#0284c7",
-
-                weight:
-                    6,
-
-                opacity:
-                    0.85,
-
-                dashArray:
-                    "12, 8"
-
-            }
-
-        ).addTo(
-            map
-        );
-
-
-    safeRouteDestinationMarker =
-
-        L.circleMarker(
-
-            [
-                destinationLocation.lat,
-                destinationLocation.lon
-            ],
-
-            {
-
-                radius:
-                    11,
-
-                color:
-                    "#0284c7",
-
-                fillColor:
-                    "#38bdf8",
-
-                fillOpacity:
-                    1,
-
-                weight:
-                    4
-
-            }
-
-        ).addTo(
-            map
-        );
-
-
-    safeRouteDestinationMarker.bindPopup(
-
-        "<b>Recommended Safe Zone</b><br>" +
-
-        destination.name +
-
-        "<br>Flood Risk: " +
-
-        destination.risk.toFixed(2) +
-
-        "%<br>Status: " +
-
-        destinationLevel.label
-
-    );
-
-
-    map.fitBounds(
-
-        safeRouteLayer.getBounds(),
-
-        {
-            padding:
-                [50, 50]
-        }
-
-    );
-
 
     document
         .getElementById(
-            "routeOrigin"
-        )
-        .innerText =
-        selectedZone.name;
-
-
-    document
-        .getElementById(
-            "routeDestination"
-        )
-        .innerText =
-        destination.name;
-
-
-    document
-        .getElementById(
-            "routeDestinationRisk"
-        )
-        .innerText =
-
-        destination.risk.toFixed(2) +
-
-        "% " +
-
-        destinationLevel.label;
-
-
-    document
-        .getElementById(
-            "routeDistance"
-        )
-        .innerText =
-
-        best.distance.toFixed(1) +
-
-        " km";
-
-
-    let guidance = "";
-
-
-    if (
-        selectedZone.risk >= 75
-    ) {
-
-        guidance =
-
-            "🚨 EVACUATION GUIDANCE: " +
-
-            selectedZone.name +
-
-            " currently shows CRITICAL flood risk. " +
-
-            destination.name +
-
-            " is recommended as a lower-risk monitored destination.";
-
-    }
-
-    else if (
-        selectedZone.risk >= 50
-    ) {
-
-        guidance =
-
-            "⚠️ PREPARE SAFE MOVEMENT: " +
-
-            selectedZone.name +
-
-            " shows HIGH flood risk. " +
-
-            "FloodSense recommends moving toward " +
-
-            destination.name +
-
-            " if evacuation becomes necessary.";
-
-    }
-
-    else if (
-        selectedZone.risk >= 25
-    ) {
-
-        guidance =
-
-            "🟡 PRECAUTIONARY ROUTE: " +
-
-            destination.name +
-
-            " is currently a lower-risk monitored destination.";
-
-    }
-
-    else {
-
-        guidance =
-
-            "🟢 SAFE-ROUTE REFERENCE: " +
-
-            selectedZone.name +
-
-            " currently has LOW flood risk. " +
-
-            destination.name +
-
-            " is shown for emergency-planning reference.";
-
-    }
-
-
-    document
-        .getElementById(
-            "routeGuidance"
-        )
-        .innerText =
-        guidance;
-
-
-    document
-        .getElementById(
-            "safeRouteResult"
+            "nowcastDemoNote"
         )
         .style.display =
-        "block";
+
+        "none";
 
 }
 
 
-/* =========================================
-   CLEAR SAFE ROUTE
-========================================= */
+/* ============================================================
+   SYSTEM INFORMATION
+============================================================ */
 
-function clearSafeRoute() {
+function updateSystemInformation() {
 
-    if (safeRouteLayer) {
+    document
+        .getElementById(
+            "lastUpdated"
+        )
+        .innerText =
 
-        map.removeLayer(
-            safeRouteLayer
-        );
-
-        safeRouteLayer =
-            null;
-
-    }
+        new Date()
+            .toLocaleString();
 
 
-    if (
-        safeRouteDestinationMarker
-    ) {
+    if (selectedZone) {
 
-        map.removeLayer(
-            safeRouteDestinationMarker
-        );
+        document
+            .getElementById(
+                "systemMode"
+            )
+            .innerText =
 
-        safeRouteDestinationMarker =
-            null;
-
-    }
-
-
-    const result =
-
-        document.getElementById(
-            "safeRouteResult"
-        );
-
-
-    if (result) {
-
-        result.style.display =
-            "none";
+            selectedZone.rainfallMode;
 
     }
 
 }
 
 
-/* =========================================
-   LOAD BACKEND ZONES
-========================================= */
+/* ============================================================
+   LOAD EVERYTHING
 
-async function loadBackendData() {
+   IMPORTANT:
+   We load zone data AND shelter data first,
+   and only then create the map markers.
+
+   This prevents the old race/overlap problem.
+============================================================ */
+
+async function initializeFloodSense() {
 
     try {
 
 
-        const response =
+        const responses =
 
-            await fetch(
-                "/api/zones"
-            );
+            await Promise.all([
+
+                fetch(
+                    "/api/zones"
+                ),
+
+                fetch(
+                    "/api/nowcast"
+                ),
+
+                fetch(
+                    "/api/risk-nowcast"
+                ),
+
+                fetch(
+                    "/api/shelters"
+                )
+
+            ]);
 
 
-        if (!response.ok) {
+        const zoneResponse =
+            responses[0];
+
+
+        const rainfallResponse =
+            responses[1];
+
+
+        const riskResponse =
+            responses[2];
+
+
+        const shelterResponse =
+            responses[3];
+
+
+        if (!zoneResponse.ok) {
 
             throw new Error(
                 "Zone API failed"
@@ -3833,67 +5172,137 @@ async function loadBackendData() {
         }
 
 
-        const apiData =
+        if (!rainfallResponse.ok) {
 
-            await response.json();
+            throw new Error(
+                "Rainfall API failed"
+            );
+
+        }
+
+
+        if (!riskResponse.ok) {
+
+            throw new Error(
+                "Risk nowcast API failed"
+            );
+
+        }
+
+
+        if (!shelterResponse.ok) {
+
+            throw new Error(
+                "Shelter API failed"
+            );
+
+        }
+
+
+        const zoneData =
+
+            await zoneResponse.json();
+
+
+        rainfallNowcastData =
+
+            await rainfallResponse.json();
+
+
+        riskNowcastData =
+
+            await riskResponse.json();
+
+
+        shelters =
+
+            await shelterResponse.json();
 
 
         zones =
 
-            apiData.map(
+            zoneData.map(
 
-                item => ({
+                function(item) {
 
-                    name:
-                        item.zone,
 
-                    elevation:
-                        Number(
-                            item.elevation_m
-                        ),
+                    return {
 
-                    terrainFactor:
-                        Number(
-                            item.terrain_factor
-                        ),
 
-                    effectiveDrainage:
-                        Number(
-                            item.effective_drainage
-                        ),
+                        name:
 
-                    blockage:
-                        Number(
-                            item.blockage_percent
-                        ),
+                            item.zone,
 
-                    vulnerability:
-                        Number(
-                            item.vulnerability
-                        ),
 
-                    risk:
-                        Number(
-                            item.risk_score
-                        ),
+                        elevation:
 
-                    backendRiskLevel:
-                        item.risk_level,
+                            Number(
+                                item.elevation_m
+                            ),
 
-                    actualRainfall:
-                        Number(
-                            item.actual_rainfall_mm
-                        ),
 
-                    rainfallUsed:
-                        Number(
-                            item.rainfall_used_mm
-                        ),
+                        terrainFactor:
 
-                    rainfallMode:
-                        item.rainfall_mode
+                            Number(
+                                item.terrain_factor
+                            ),
 
-                })
+
+                        effectiveDrainage:
+
+                            Number(
+                                item.effective_drainage
+                            ),
+
+
+                        blockage:
+
+                            Number(
+                                item.blockage_percent
+                            ),
+
+
+                        vulnerability:
+
+                            Number(
+                                item.vulnerability
+                            ),
+
+
+                        risk:
+
+                            Number(
+                                item.risk_score
+                            ),
+
+
+                        riskLevel:
+
+                            item.risk_level,
+
+
+                        actualRainfall:
+
+                            Number(
+                                item.actual_rainfall_mm
+                            ),
+
+
+                        rainfallUsed:
+
+                            Number(
+                                item.rainfall_used_mm
+                            ),
+
+
+                        rainfallMode:
+
+                            item.rainfall_mode
+
+
+                    };
+
+                }
 
             );
 
@@ -3909,224 +5318,77 @@ async function loadBackendData() {
             );
 
 
+        /*
+            NOW shelters are already available,
+            so each zone marker can include
+            the tiny house badge correctly.
+        */
+
         createMarkers();
 
+
         updateCriticalCount();
-
-
-        if (
-            zones.length > 0
-        ) {
-
-            updateDashboard(
-                zones[0]
-            );
-
-        }
-
-    }
-
-
-    catch (error) {
-
-
-        console.error(
-            error
-        );
-
-
-        document
-            .getElementById(
-                "selectedZoneCard"
-            )
-            .innerText =
-            "API Error";
-
-
-        document
-            .getElementById(
-                "warningMessage"
-            )
-            .innerText =
-            "Unable to load backend zone data.";
-
-    }
-
-}
-
-
-/* =========================================
-   LOAD RAINFALL NOWCAST
-========================================= */
-
-async function loadNowcastData() {
-
-    try {
-
-
-        const response =
-
-            await fetch(
-                "/api/nowcast"
-            );
-
-
-        if (!response.ok) {
-
-            throw new Error(
-                "Rainfall nowcast API failed"
-            );
-
-        }
-
-
-        rainfallNowcastData =
-
-            await response.json();
 
 
         renderRainfallNowcast(
             rainfallNowcastData
         );
 
-    }
+
+        if (
+            zones.length > 0
+        ) {
 
 
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-    }
-
-}
-
-
-/* =========================================
-   LOAD RISK NOWCAST
-========================================= */
-
-async function loadRiskNowcastData() {
-
-    try {
-
-
-        const response =
-
-            await fetch(
-                "/api/risk-nowcast"
+            updateDashboard(
+                zones[0]
             );
 
 
-        if (!response.ok) {
-
-            throw new Error(
-                "Risk nowcast API failed"
-            );
+            resetShelterGuidance();
 
         }
 
 
-        riskNowcastData =
+    }
 
-            await response.json();
+    catch (error) {
 
 
-        if (selectedZone) {
+        console.error(
 
-            updateRiskNowcast(
-                selectedZone.name
+            "FloodSense initialization error:",
+
+            error
+
+        );
+
+
+        const warning =
+
+            document.getElementById(
+                "warningMessage"
             );
+
+
+        if (warning) {
+
+            warning.innerText =
+
+                "Unable to load one or more FloodSense backend APIs.";
 
         }
 
     }
 
-
-    catch (error) {
-
-        console.error(
-            error
-        );
-
-    }
-
 }
 
 
-/* =========================================
-   SYSTEM INFORMATION
-========================================= */
-
-function updateSystemInformation() {
-
-    const now =
-        new Date();
-
-
-    const formattedTime =
-
-        now.toLocaleString(
-
-            "en-IN",
-
-            {
-
-                day:
-                    "2-digit",
-
-                month:
-                    "short",
-
-                year:
-                    "numeric",
-
-                hour:
-                    "2-digit",
-
-                minute:
-                    "2-digit",
-
-                second:
-                    "2-digit"
-
-            }
-
-        );
-
-
-    document
-        .getElementById(
-            "lastUpdated"
-        )
-        .innerText =
-        formattedTime;
-
-
-    if (selectedZone) {
-
-        document
-            .getElementById(
-                "systemMode"
-            )
-            .innerText =
-            selectedZone.rainfallMode;
-
-    }
-
-}
-
-
-/* =========================================
+/* ============================================================
    START FLOODSENSE
-========================================= */
+============================================================ */
 
-loadBackendData();
-
-loadNowcastData();
-
-loadRiskNowcastData();
+initializeFloodSense();
 
 
 </script>
